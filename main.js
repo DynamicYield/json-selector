@@ -1,6 +1,10 @@
 Object.query = function(object, query, fallbackValue) {
   var match, index;
 
+  if (query === null) {
+    return object;
+  }
+
   if (typeof fallbackValue === 'undefined') {
     match = query.match(/^(.*?)\s*(?:\|\|\s*(.*))?$/);
     query = match[1];
@@ -79,7 +83,9 @@ var tests = [
   [".run.baz", null],
   [".baz || 0", 0],
   [".baz.quux || 1", 1],
-  [".run.baz || \"2\"", '2']
+  [".run.baz || \"2\"", '2'],
+  ["", testJson],
+  [null, testJson]
 ];
 
 var i, result;
