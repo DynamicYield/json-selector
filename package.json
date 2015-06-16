@@ -1,7 +1,8 @@
 {
-  "name": "@dynamicyield/json-selector",
+  "name": "json-selector",
   "version": "0.2.1",
   "author": "Dynamic Yield <ramon@dynamicyield.com>",
+  "description": "JSON-based JSON transformation tool",
   "main": "index.js",
   "dependencies": {
   },
