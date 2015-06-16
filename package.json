@@ -3,6 +3,7 @@
   "version": "0.2.3",
   "author": "Dynamic Yield <ramon@dynamicyield.com>",
   "description": "JSON-based JSON transformation tool",
+  "repository": "https://github.com/DynamicYield/json-selector",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -10,5 +11,6 @@
   },
   "scripts": {
     "test": "mocha test.js"
-  }
+  },
+  "license": "MIT"
 }
