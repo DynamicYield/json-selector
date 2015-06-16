@@ -50,7 +50,7 @@ var tests = [
 
 var i, result;
 for (i = 0; i < tests.length; i++) {
-  console.log('Testing \"' + tests[i][0] + "\" with", tests[i][1]);
+  console.log('Testing', JSON.stringify(tests[i][0]), 'with', tests[i][1]);
   result = Object.query(testJson, tests[i][0]);
   if (result === tests[i][1]) {
     console.log('Pass');
