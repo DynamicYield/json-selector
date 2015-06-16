@@ -29,6 +29,24 @@ Object.query = function(object, query, fallbackValue) {
     } else {
       return JSON.parse(fallbackValue);
     }
+  } else if (query.constructor === Array) {
+    result = [];
+    query.forEach(function(query) {
+      var subResult;
+      if (query.constructor === Array) {
+        result.push(Object.query(object, query));
+      } else {
+        subResult = Object.query(object, query);
+        if (subResult.constructor === Array) {
+          subResult.forEach(function(subResult) {
+            result.push(subResult);
+          });
+        } else {
+          result.push(subResult);
+        }
+      }
+    });
+    return result;
   } else if (query.hasOwnProperty('<array>') && query.hasOwnProperty('<item>')) {
     result = Object.query(object, query['<array>']);
     if (result === null) {

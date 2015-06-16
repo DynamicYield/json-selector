@@ -36,7 +36,8 @@ var tests = [
       "weather.temp_day": ".temp.mean",
       "weather.wind.speed": ".windspeed",
       "weather\\.temp\\.min": ".temp.min"
-    }, {
+    },
+    {
       weather: {
         temp_min: 14,
         temp_max: 15,
@@ -58,7 +59,8 @@ var tests = [
           "speed": ".windspeed"
         }
       }
-    }, {
+    },
+    {
       weather: {
         temp_min: 14,
         temp_max: 15,
@@ -69,37 +71,68 @@ var tests = [
       }
     }
   ],
-  [{
-    "<array>": ".list",
-    "<item>": {
-      "numbers": {
-        "<array>": ".baz",
-        "<item>": ".a"
-      },
-      "others": {
-        "<array>": ".baz",
-        "<item>": {
-          "val": ".b"
+  [
+    {
+      "<array>": ".list",
+      "<item>": {
+        "numbers": {
+          "<array>": ".baz",
+          "<item>": ".a"
+        },
+        "others": {
+          "<array>": ".baz",
+          "<item>": {
+            "val": ".b"
+          }
         }
       }
-    }
-  }, [
-    {
-      numbers: [4, 5],
-      others: [
-        {val: 1},
-        {val: 2}
-      ]
     },
-    {
-      numbers: [6, 7, 8],
-      others: [
-        {val: 1},
-        {val: 2},
-        {val: 3}
+    [
+      {
+        numbers: [4, 5],
+        others: [
+          {val: 1},
+          {val: 2}
+        ]
+      },
+      {
+        numbers: [6, 7, 8],
+        others: [
+          {val: 1},
+          {val: 2},
+          {val: 3}
+        ]
+      }
+    ]
+  ],
+  [
+    [
+      ".temp.min",
+      ".temp.max",
+      ".list[0].baz"
+    ],
+    [
+      14,
+      15,
+      { a: 4, b: 1 },
+      { a: 5, b: 2 }
+    ]
+  ],
+  [
+    [
+      ".temp.min",
+      ".temp.max",
+      [".list[0].baz"]
+    ],
+    [
+      14,
+      15,
+      [
+        { a: 4, b: 1 },
+        { a: 5, b: 2 }
       ]
-    }
-  ]]
+    ]
+  ]
 ];
 
 var i, result;
