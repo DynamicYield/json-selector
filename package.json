@@ -1,0 +1,13 @@
+{
+  "name": "@dynamicyield/json-selector",
+  "version": "0.1.0",
+  "author": "Dynamic Yield <ramon@dynamicyield.com>",
+  "main": "index.js",
+  "dependencies": {
+  },
+  "optionalDependencies": {
+  },
+  "scripts": {
+    "test": "node test.js"
+  }
+}
