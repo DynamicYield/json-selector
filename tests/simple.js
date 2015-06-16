@@ -1,4 +1,5 @@
-require('./index.js');
+require('../index.js');
+var test = require('unit.js');
 
 var testJson = {
   foo: 'bar',
@@ -48,13 +49,12 @@ var tests = [
   [null, testJson]
 ];
 
-var i, result;
-for (i = 0; i < tests.length; i++) {
-  console.log('Testing', JSON.stringify(tests[i][0]), 'with', tests[i][1]);
-  result = Object.query(testJson, tests[i][0]);
-  if (result === tests[i][1]) {
-    console.log('Pass');
-  } else {
-    console.log('Fail', result);
-  }
-}
+describe('Simple Tests', function() {
+  tests.forEach(function(testCase) {
+    it('query ' + JSON.stringify(testCase[0]), function() {
+      test
+        .value(Object.query(testJson, testCase[0]))
+        .is(testCase[1]);
+    });
+  });
+});

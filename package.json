@@ -1,14 +1,14 @@
 {
   "name": "json-selector",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "Dynamic Yield <ramon@dynamicyield.com>",
   "description": "JSON-based JSON transformation tool",
   "main": "index.js",
-  "dependencies": {
-  },
-  "optionalDependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "unit.js": "2.0.x"
   },
   "scripts": {
-    "test": "node testQuerySimple.js && node testQueryNested.js && node testQueryScopes.js"
+    "test": "mocha test.js"
   }
 }
