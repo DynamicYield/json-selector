@@ -1,5 +1,12 @@
-Object.query = function(object, query, fallbackValue) {
-  var result, match, index;
+Object.query = function(object, query, fallbackValue, scopes) {
+  var undefined, result, match, index;
+
+  if (typeof scopes === 'undefined') {
+    scopes = {
+      root: object,
+      parents: []
+    };
+  }
 
   if (query === null) {
     return object;
@@ -12,20 +19,37 @@ Object.query = function(object, query, fallbackValue) {
 
     if (!query.length) {
       return tryRun(object);
-    } else if (query[0] === '.') {
+    }
+
+    switch (query[0]) {
+    case '.':
       match = query.match(/^\.([^\.\[]*)(.*)$/);
       index = match[1];
       query = match[2];
-    } else if (query[0] === '[') {
+      break;
+    case '[':
       match = query.match(/^\[([^\]]*)\](.*)$/);
       index = match[1];
       query = match[2];
-    } else {
+      break;
+    case '/':
+      return Object.query(scopes.root, query.substr(1), fallbackValue);
+    case '^':
+      if (scopes.parents.length === 0) {
+        throw new Error('no parent scope found ' + query);
+      }
+      object = scopes.parents[0];
+      scopes = {
+        root: scopes.root,
+        parents: scopes.parents.slice(1)
+      };
+      return Object.query(object, query.substr(1), fallbackValue, scopes);
+    default:
       throw new Error('invalid query format ' + query);
     }
 
     if (object.hasOwnProperty(index)) {
-      return Object.query(tryRun(object[index]), query, fallbackValue);
+      return Object.query(tryRun(object[index]), query, fallbackValue, scopes);
     } else {
       return JSON.parse(fallbackValue);
     }
@@ -34,9 +58,9 @@ Object.query = function(object, query, fallbackValue) {
     query.forEach(function(query) {
       var subResult;
       if (query.constructor === Array) {
-        result.push(Object.query(object, query));
+        result.push(Object.query(object, query, undefined, scopes));
       } else {
-        subResult = Object.query(object, query);
+        subResult = Object.query(object, query, undefined, scopes);
         if (subResult.constructor === Array) {
           subResult.forEach(function(subResult) {
             result.push(subResult);
@@ -48,18 +72,25 @@ Object.query = function(object, query, fallbackValue) {
     });
     return result;
   } else if (query.hasOwnProperty('<array>') && query.hasOwnProperty('<item>')) {
-    result = Object.query(object, query['<array>']);
-    if (result === null) {
-      return result;
-    } else {
-      return result.map(function(item) {
-        return Object.query(tryRun(item), query['<item>']);
+    result = Object.query(object, query['<array>'], undefined, scopes);
+    var newScopes = {
+      root: scopes.root,
+      parents: [object].concat(scopes.parents)
+    };
+    if (result !== null) {
+      result = result.map(function(item) {
+        return Object.query(tryRun(item), query['<item>'], undefined, newScopes);
       });
     }
+    if (query['<flatten>'] === true) {
+      result = [].concat.apply([], result);
+    }
+    return result;
   } else {
     result = {};
     for (index in query) {
-      setRecursiveKeyInObject(result, index, Object.query(object, query[index]));
+      setRecursiveKeyInObject(result, index,
+                              Object.query(object, query[index], undefined, scopes));
     }
     return result;
   }

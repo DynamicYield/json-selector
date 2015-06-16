@@ -1,6 +1,6 @@
 {
   "name": "json-selector",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Dynamic Yield <ramon@dynamicyield.com>",
   "description": "JSON-based JSON transformation tool",
   "main": "index.js",
@@ -9,6 +9,6 @@
   "optionalDependencies": {
   },
   "scripts": {
-    "test": "node testQuerySimple.js ; node testQueryNested.js"
+    "test": "node testQuerySimple.js && node testQueryNested.js && node testQueryScopes.js"
   }
 }
